@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Ubuntu 12.4-0ubuntu0.20.04.1)
 -- Dumped by pg_dump version 13.0
 
--- Started on 2020-11-16 20:41:44
+-- Started on 2020-12-14 21:02:28
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -67,13 +67,27 @@ CREATE SEQUENCE public.customer_id_seq
 ALTER TABLE public.customer_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2971 (class 0 OID 0)
+-- TOC entry 2984 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.customer_id_seq OWNED BY public.customer.id;
 
+
+--
+-- TOC entry 210 (class 1259 OID 32768)
+-- Name: customer_passport; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.customer_passport (
+    customer_id integer NOT NULL,
+    passport_num text NOT NULL,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.customer_passport OWNER TO postgres;
 
 --
 -- TOC entry 205 (class 1259 OID 24592)
@@ -107,7 +121,7 @@ CREATE SEQUENCE public.product_id_seq
 ALTER TABLE public.product_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2974 (class 0 OID 0)
+-- TOC entry 2987 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -146,7 +160,7 @@ CREATE SEQUENCE public.product_photo_id_seq
 ALTER TABLE public.product_photo_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2977 (class 0 OID 0)
+-- TOC entry 2990 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: product_photo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -170,7 +184,7 @@ CREATE VIEW public.test AS
 ALTER TABLE public.test OWNER TO oleksii;
 
 --
--- TOC entry 2818 (class 2604 OID 24582)
+-- TOC entry 2823 (class 2604 OID 24582)
 -- Name: customer id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -178,7 +192,7 @@ ALTER TABLE ONLY public.customer ALTER COLUMN id SET DEFAULT nextval('public.cus
 
 
 --
--- TOC entry 2819 (class 2604 OID 24595)
+-- TOC entry 2824 (class 2604 OID 24595)
 -- Name: product id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -186,7 +200,7 @@ ALTER TABLE ONLY public.product ALTER COLUMN id SET DEFAULT nextval('public.prod
 
 
 --
--- TOC entry 2820 (class 2604 OID 24606)
+-- TOC entry 2825 (class 2604 OID 24606)
 -- Name: product_photo id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -194,7 +208,7 @@ ALTER TABLE ONLY public.product_photo ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 2963 (class 0 OID 24627)
+-- TOC entry 2975 (class 0 OID 24627)
 -- Dependencies: 208
 -- Data for Name: cart_product; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -212,7 +226,7 @@ COPY public.cart_product (product_id, customer_id) FROM stdin;
 
 
 --
--- TOC entry 2958 (class 0 OID 24579)
+-- TOC entry 2970 (class 0 OID 24579)
 -- Dependencies: 203
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -227,7 +241,22 @@ COPY public.customer (id, name, phone, email) FROM stdin;
 
 
 --
--- TOC entry 2960 (class 0 OID 24592)
+-- TOC entry 2976 (class 0 OID 32768)
+-- Dependencies: 210
+-- Data for Name: customer_passport; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.customer_passport (customer_id, passport_num, id) FROM stdin;
+1	12345	1
+2	4567897	2
+3	879456	3
+4	8798465	4
+5	897543219	5
+\.
+
+
+--
+-- TOC entry 2972 (class 0 OID 24592)
 -- Dependencies: 205
 -- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -242,7 +271,7 @@ COPY public.product (id, name, description, price) FROM stdin;
 
 
 --
--- TOC entry 2962 (class 0 OID 24603)
+-- TOC entry 2974 (class 0 OID 24603)
 -- Dependencies: 207
 -- Data for Name: product_photo; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -260,7 +289,7 @@ COPY public.product_photo (id, url, product_id) FROM stdin;
 
 
 --
--- TOC entry 2979 (class 0 OID 0)
+-- TOC entry 2992 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -269,7 +298,7 @@ SELECT pg_catalog.setval('public.customer_id_seq', 5, true);
 
 
 --
--- TOC entry 2980 (class 0 OID 0)
+-- TOC entry 2993 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -278,7 +307,7 @@ SELECT pg_catalog.setval('public.product_id_seq', 5, true);
 
 
 --
--- TOC entry 2981 (class 0 OID 0)
+-- TOC entry 2994 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: product_photo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -287,7 +316,16 @@ SELECT pg_catalog.setval('public.product_photo_id_seq', 8, true);
 
 
 --
--- TOC entry 2822 (class 2606 OID 24587)
+-- TOC entry 2833 (class 2606 OID 32780)
+-- Name: customer_passport customer_passport_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer_passport
+    ADD CONSTRAINT customer_passport_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2827 (class 2606 OID 24587)
 -- Name: customer customer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -296,7 +334,25 @@ ALTER TABLE ONLY public.customer
 
 
 --
--- TOC entry 2826 (class 2606 OID 24608)
+-- TOC entry 2835 (class 2606 OID 49155)
+-- Name: customer_passport customer_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer_passport
+    ADD CONSTRAINT customer_unique UNIQUE (customer_id);
+
+
+--
+-- TOC entry 2837 (class 2606 OID 49153)
+-- Name: customer_passport passport; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer_passport
+    ADD CONSTRAINT passport UNIQUE (passport_num);
+
+
+--
+-- TOC entry 2831 (class 2606 OID 24608)
 -- Name: product_photo product_photo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -305,7 +361,7 @@ ALTER TABLE ONLY public.product_photo
 
 
 --
--- TOC entry 2824 (class 2606 OID 24600)
+-- TOC entry 2829 (class 2606 OID 24600)
 -- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -314,7 +370,7 @@ ALTER TABLE ONLY public.product
 
 
 --
--- TOC entry 2829 (class 2606 OID 24640)
+-- TOC entry 2840 (class 2606 OID 24640)
 -- Name: cart_product cart_product_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -323,7 +379,7 @@ ALTER TABLE ONLY public.cart_product
 
 
 --
--- TOC entry 2828 (class 2606 OID 24630)
+-- TOC entry 2839 (class 2606 OID 24630)
 -- Name: cart_product cart_product_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -332,7 +388,16 @@ ALTER TABLE ONLY public.cart_product
 
 
 --
--- TOC entry 2827 (class 2606 OID 24609)
+-- TOC entry 2841 (class 2606 OID 32774)
+-- Name: customer_passport customer_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customer_passport
+    ADD CONSTRAINT customer_id FOREIGN KEY (customer_id) REFERENCES public.customer(id);
+
+
+--
+-- TOC entry 2838 (class 2606 OID 24609)
 -- Name: product_photo product_photo_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -341,7 +406,7 @@ ALTER TABLE ONLY public.product_photo
 
 
 --
--- TOC entry 2969 (class 0 OID 0)
+-- TOC entry 2982 (class 0 OID 0)
 -- Dependencies: 208
 -- Name: TABLE cart_product; Type: ACL; Schema: public; Owner: postgres
 --
@@ -351,7 +416,7 @@ GRANT ALL ON TABLE public.cart_product TO oleksii;
 
 
 --
--- TOC entry 2970 (class 0 OID 0)
+-- TOC entry 2983 (class 0 OID 0)
 -- Dependencies: 203
 -- Name: TABLE customer; Type: ACL; Schema: public; Owner: postgres
 --
@@ -360,7 +425,7 @@ GRANT ALL ON TABLE public.customer TO oleksii;
 
 
 --
--- TOC entry 2972 (class 0 OID 0)
+-- TOC entry 2985 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: SEQUENCE customer_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
@@ -369,7 +434,7 @@ GRANT ALL ON SEQUENCE public.customer_id_seq TO oleksii;
 
 
 --
--- TOC entry 2973 (class 0 OID 0)
+-- TOC entry 2986 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: TABLE product; Type: ACL; Schema: public; Owner: postgres
 --
@@ -378,7 +443,7 @@ GRANT ALL ON TABLE public.product TO oleksii;
 
 
 --
--- TOC entry 2975 (class 0 OID 0)
+-- TOC entry 2988 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: SEQUENCE product_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
@@ -387,7 +452,7 @@ GRANT ALL ON SEQUENCE public.product_id_seq TO oleksii;
 
 
 --
--- TOC entry 2976 (class 0 OID 0)
+-- TOC entry 2989 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: TABLE product_photo; Type: ACL; Schema: public; Owner: postgres
 --
@@ -396,7 +461,7 @@ GRANT ALL ON TABLE public.product_photo TO oleksii;
 
 
 --
--- TOC entry 2978 (class 0 OID 0)
+-- TOC entry 2991 (class 0 OID 0)
 -- Dependencies: 206
 -- Name: SEQUENCE product_photo_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
@@ -404,7 +469,7 @@ GRANT ALL ON TABLE public.product_photo TO oleksii;
 GRANT ALL ON SEQUENCE public.product_photo_id_seq TO oleksii;
 
 
--- Completed on 2020-11-16 20:41:44
+-- Completed on 2020-12-14 21:02:28
 
 --
 -- PostgreSQL database dump complete
